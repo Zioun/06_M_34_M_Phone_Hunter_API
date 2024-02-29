@@ -42,25 +42,26 @@ const displayPhones = (phones, isShowAll) => {
 const showDetails = async (id) =>{
     const ref = await fetch(`https://openapi.programming-hero.com/api/phone/${id}`)
     const data = await ref.json();
-    showPhoneDetails(data);
+    const phone = data.data;
+    showPhoneDetails(phone);
     
     
 }
 
 
 // show phone details
-const showPhoneDetails = (phoneData) =>{
+const showPhoneDetails = (phone) =>{
     showDetails_modal.showModal()
     const detailsData = document.getElementById("modal-box");
     detailsData.innerHTML = `
-    <h3 class="font-bold text-lg">${phoneData.data.brand}</h3>
-    <img class="my-5 " src="${phoneData.data.image}" alt="">
-    <p class="py-1"><span class="font-medium mr-5">Name</span>${phoneData.data.name}</p>
-    <p class="py-1"><span class="font-medium mr-5">Relasese Date</span>${phoneData.data.releaseDate}</p>
-    <p class="py-1"><span class="font-medium mr-5">Memory</span>${phoneData.data.mainFeatures.memory}</p>
-    <p class="py-1"><span class="font-medium mr-5">Storage</span>${phoneData.data.mainFeatures.storage}</p>
-    <p class="py-1"><span class="font-medium mr-5">Display Size</span>${phoneData.data.mainFeatures.displaySize}</p>
-    <p class="py-1"><span class="font-medium mr-5">GPS</span>${phoneData.data.others.GPS}</p>
+    <h3 class="font-bold text-lg">${phone.brand}</h3>
+    <img class="my-5 " src="${phone.image}" alt="">
+    <p class="py-1"><span class="font-medium mr-5">Name</span>${phone.name}</p>
+    <p class="py-1"><span class="font-medium mr-5">Relasese Date</span>${phone.releaseDate}</p>
+    <p class="py-1"><span class="font-medium mr-5">Memory</span>${phone.mainFeatures.memory}</p>
+    <p class="py-1"><span class="font-medium mr-5">Storage</span>${phone.mainFeatures.storage}</p>
+    <p class="py-1"><span class="font-medium mr-5">Display Size</span>${phone.mainFeatures.displaySize}</p>
+    <p class="py-1"><span class="font-medium mr-5">GPS</span>${phone.others?.GPS || "No GPS Available"}</p>
     <div class="modal-action">
         <form method="dialog">
             <!-- if there is a button in form, it will close the modal -->
