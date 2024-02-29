@@ -16,7 +16,7 @@ const displayPhones = (phones, isShowAll) => {
     }
     // slich
     if(!isShowAll){
-        phones = phones.slice(0,12);
+        phones = phones.slice(0, 12);
     }
     // clear data 
     cardArea.textContent = "";
@@ -29,13 +29,45 @@ const displayPhones = (phones, isShowAll) => {
                 <h2 class="card-title">${phone.phone_name}</h2>
                 <p>${phone.slug}</p>
                 <div class="card-actions justify-center">
-                    <button class="btn btn-primary">Show Details</button>
+                    <button onclick="showDetails('${phone.slug}')" class="btn btn-primary">Show Details</button>
                 </div>
             </div>
         `;
         cardArea.appendChild(div);
     });
     preLoader(false);
+}
+
+// show details
+const showDetails = async (id) =>{
+    const ref = await fetch(`https://openapi.programming-hero.com/api/phone/${id}`)
+    const data = await ref.json();
+    showPhoneDetails(data);
+    
+    
+}
+
+
+// show phone details
+const showPhoneDetails = (phoneData) =>{
+    showDetails_modal.showModal()
+    const detailsData = document.getElementById("modal-box");
+    detailsData.innerHTML = `
+    <h3 class="font-bold text-lg">${phoneData.data.brand}</h3>
+    <img class="my-5 " src="${phoneData.data.image}" alt="">
+    <p class="py-1"><span class="font-medium mr-5">Name</span>${phoneData.data.name}</p>
+    <p class="py-1"><span class="font-medium mr-5">Relasese Date</span>${phoneData.data.releaseDate}</p>
+    <p class="py-1"><span class="font-medium mr-5">Memory</span>${phoneData.data.mainFeatures.memory}</p>
+    <p class="py-1"><span class="font-medium mr-5">Storage</span>${phoneData.data.mainFeatures.storage}</p>
+    <p class="py-1"><span class="font-medium mr-5">Display Size</span>${phoneData.data.mainFeatures.displaySize}</p>
+    <p class="py-1"><span class="font-medium mr-5">GPS</span>${phoneData.data.others.GPS}</p>
+    <div class="modal-action">
+        <form method="dialog">
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn btn-error text-white">Close</button>
+        </form>
+    </div>
+    `;
 }
 
 // search button
