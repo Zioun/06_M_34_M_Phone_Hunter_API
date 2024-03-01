@@ -95,4 +95,3 @@ const preLoader = (loaderIcon) =>{
 const showAll = () => {
     searchBtn(true);
 }
-
